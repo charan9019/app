@@ -2,12 +2,11 @@ from flask import Flask, request, redirect, url_for, send_from_directory, render
 
 app = Flask(__name__)
 
-# Dictionary to store valid usernames and passwords
 valid_credentials = {
     "charanwb": "crn5717"
 }
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/ch', methods=['GET', 'POST'])
 def index():
     error = None
     if request.method == 'POST':
@@ -15,10 +14,8 @@ def index():
         password = request.form['password']
 
         if username in valid_credentials and valid_credentials[username] == password:
-            # Redirect to the GitHub repository if credentials are correct
             return redirect("https://www.python.org/")
         else:
-            # Set the error message if credentials are incorrect
             error = 'Invalid username or password'
 
     html = '''<!DOCTYPE html>
@@ -33,7 +30,7 @@ def index():
                 position:relative;
             }
             body {
-                background-image:url('/image/unplash_buddha.png');
+                background-image:url('/background-image/unplash_buddha.png');
                 background-repeat:no-repeat;
                 background-attachment:fixed;
                 background-size:cover;
@@ -87,13 +84,13 @@ def index():
     </html>'''
     return render_template_string(html, error=error)
 
-@app.route('/image/<path:filename>')
-def serve_image(filename):
+@app.route('/background-image/<path:filename>')
+def serve_background_image(filename):
     return send_from_directory('/storage/emulated/0/Download/', filename)
 
 @app.route("/image/thumbnail.png")
-def serv_thumbnail():
+def serve_thumbnail():
     return send_from_directory("/storage/emulated/0/Documents/html/", "thumbnail.png")
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5717)
+    app.run(host='0.0.0.0', port=8000)
